@@ -2,13 +2,25 @@
 #include <Adafruit_BME680.h>
 #include <Wire.h>
 
-class BME680Sensor {
+struct SensorReading {
+  float temperature;
+  float humidity;
+  float pressure;
+  float voc;      // raw gas resistance
+  float vocSmooth; // EMA
+};
+
+class Sensor {
 public:
-  void init();
-  void readAndPrintData();
+  bool begin(uint8_t i2c_addr = 0x76);
+  SensorReading takeReading();
+
+  // EMA smoothing factor (0–1). Public so you can tune at runtime if needed.
+  float smoothingAlpha = 0.1;
 
 private:
-  Adafruit_BME680 bme;
-  float gasEMA = 0.0;
-  const float smoothingAlpha = 0.1; // EMA smoothing constant
+  Adafruit_BME680 _bme{&Wire};
+  float _vocEMA = 0.0f;
+
+  void initBSECPlaceholder();  
 };

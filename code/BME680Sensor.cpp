@@ -1,59 +1,53 @@
 #include "BME680Sensor.h"
+#include <Arduino.h>
 
-void BME680Sensor::init() {
-  Wire.begin();
-
-  if (!bme.begin(0x76)) {
-    Serial.println("Could not find a valid BME680 sensor, check wiring!");
-    while (1); // Halt execution
+bool Sensor::begin(uint8_t i2c_addr) {
+  Wire.begin();  
+  if (!_bme.begin(i2c_addr)) {
+    Serial.println("ERROR: BME680 not found at I²C");
+    return false;
   }
-
-  bme.setTemperatureOversampling(BME680_OS_8X);
-  bme.setHumidityOversampling(BME680_OS_8X);
-  bme.setPressureOversampling(BME680_OS_4X);
-  bme.setIIRFilterSize(BME680_FILTER_SIZE_3);
-  bme.setGasHeater(320, 150); // Heater: 320°C for 150ms
-
-  Serial.println("BME680 initialized");
+  // basic oversampling/filter setup
+  _bme.setTemperatureOversampling(BME680_OS_8X);
+  _bme.setHumidityOversampling   (BME680_OS_8X);
+  _bme.setPressureOversampling   (BME680_OS_4X);
+  _bme.setIIRFilterSize          (BME680_FILTER_SIZE_3);
+  _bme.setGasHeater(320, 150); // 320°C @ 150 ms
+  
+  initBSECPlaceholder();
+  return true;
 }
 
-void BME680Sensor::readAndPrintData() {
-  if (!bme.beginReading()) {
-    Serial.println("Failed to begin reading");
-    return;
+void Sensor::initBSECPlaceholder() {
+  // TODO: hook in Bosch BSEC AI initialization here
+  // e.g. load state, set sample rate, config profile, etc.
+}
+
+SensorReading Sensor::takeReading() {
+  SensorReading out{};
+  
+  if (!_bme.beginReading()) {
+    Serial.println("ERROR: failed to start BME read");
+    return out;
+  }
+  delay(200);  // match gas heater duration + conversion time
+  if (!_bme.endReading()) {
+    Serial.println("ERROR: failed to complete BME read");
+    return out;
   }
 
-  delay(200); // Wait for reading to finish
-  if (!bme.endReading()) {
-    Serial.println("Failed to complete reading");
-    return;
-  }
+  out.temperature = _bme.temperature;
+  out.humidity    = _bme.humidity;
+  out.pressure    = _bme.pressure / 100.0;      // hPa
+  out.voc         = _bme.gas_resistance / 1000.0; // kΩ
 
-  float temperature = bme.temperature;
-  float humidity = bme.humidity;
-  float pressure = bme.pressure / 100.0;
-  float gas_kOhm = bme.gas_resistance / 1000.0;
-
-  // Exponential Moving Average (EMA)
-  if (gasEMA == 0) {
-    gasEMA = gas_kOhm;
+  // EMA smoothing
+  if (_vocEMA == 0.0f) {
+    _vocEMA = out.voc;
   } else {
-    gasEMA = (smoothingAlpha * gas_kOhm) + ((1.0 - smoothingAlpha) * gasEMA);
+    _vocEMA = out.voc * smoothingAlpha + _vocEMA * (1.0f - smoothingAlpha);
   }
+  out.vocSmooth = _vocEMA;
 
-  // Output as CSV for Serial Plotter
-  Serial.print("T:");
-  Serial.print(temperature);
-  Serial.print(",");
-  Serial.print("H:");
-  Serial.print(humidity);
-  Serial.print(",");
-  Serial.print("P:");    
-  Serial.print(pressure); 
-  Serial.print(",");
-  Serial.print("G_RAW:");   
-  Serial.print(gas_kOhm); 
-  Serial.print(",");   
-  Serial.print("G_AVG:");
-  Serial.println(gasEMA);
+  return out;
 }
