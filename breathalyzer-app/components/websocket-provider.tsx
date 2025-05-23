@@ -32,21 +32,28 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
     if (socket?.readyState === WebSocket.OPEN) return
 
     try {
-      // In a real app, replace with your actual WebSocket server URL
-      const ws = new WebSocket("ws://localhost:8080")
+      const ws = new WebSocket('ws://192.168.0.112:8080/')
 
       ws.onopen = () => {
-        console.log("WebSocket connected")
+        console.log("WebSocket connected - press the button on the device")
         setIsConnected(true)
         setReconnectAttempts(0)
       }
 
       ws.onmessage = (event) => {
+        const text = event.data
+        // Ignore non-JSON (welcome messages, pings, etc.)
+        if (text[0] !== '{') {
+          console.log('WS message (ignored):', text)
+          return
+        }
+
         try {
-          const data = JSON.parse(event.data)
-          setLastMessage(data)
+          const msg = JSON.parse(text)
+          console.log("Received sensor data:", msg)
+          setLastMessage(msg)
         } catch (error) {
-          console.error("Failed to parse WebSocket message:", error)
+          console.error("Malformed JSON:", text)
         }
       }
 
@@ -98,12 +105,6 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
       }
     }
   }, [socket])
-
-  // For demo purposes, we'll simulate connection
-  useEffect(() => {
-    // In a real app, you might want to connect automatically or based on user action
-    // connect()
-  }, [])
 
   return (
     <WebSocketContext.Provider value={{ isConnected, sendMessage, lastMessage, connect, disconnect }}>
