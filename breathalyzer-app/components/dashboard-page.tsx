@@ -15,7 +15,7 @@ import { useAchievements } from "@/hooks/use-achievements"
 export function DashboardPage() {
   const [testState, setTestState] = useState<"idle" | "testing" | "results">("idle")
   const [currentResult, setCurrentResult] = useState<TestResult | null>(null)
-  const { isConnected, connect, lastMessage } = useWebSocket()
+  const { isConnected, connect, sendMessage, lastMessage } = useWebSocket()
   const [testHistory, setTestHistory] = useLocalStorage<TestResult[]>("test-history", [])
 
   const { calculateProgress } = useAchievements()
@@ -24,6 +24,7 @@ export function DashboardPage() {
     if (!isConnected) {
       connect()
     }
+    sendMessage("start")
     setTestState("testing")
   }
 

@@ -54,28 +54,6 @@ export function TestFlow({ onComplete }: { onComplete: (result: TestResult) => v
         if (newProgress >= 100) {
           clearInterval(timer)
           setStage("processing")
-          sendMessage("start")
-
-          // Simulate receiving data after 2 seconds
-          setTimeout(() => {
-            // If we have real data from WebSocket, use that
-            if (lastMessage) {
-              onComplete({
-                ...lastMessage,
-                timestamp: new Date().toISOString(),
-              })
-            } else {
-              // Otherwise use mock data
-              onComplete({
-                temperature: 24.38,
-                humidity: 42.1,
-                pressure: 1012.57,
-                gas_kOhm: Math.random() * 200,
-                timestamp: new Date().toISOString(),
-              })
-            }
-          }, 2000)
-
           return 100
         }
 
@@ -84,7 +62,20 @@ export function TestFlow({ onComplete }: { onComplete: (result: TestResult) => v
     }, interval)
 
     return () => clearInterval(timer)
-  }, [stage, sendMessage, lastMessage, onComplete, blowTime])
+  }, [stage, blowTime])
+
+  // Handle processing stage and wait for data
+  useEffect(() => {
+    if (stage !== "processing") return
+
+    if (lastMessage) {
+      console.log("Received data in processing stage:", lastMessage)
+      onComplete({
+        ...lastMessage,
+        timestamp: new Date().toISOString(),
+      })
+    }
+  }, [stage, lastMessage, onComplete])
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
