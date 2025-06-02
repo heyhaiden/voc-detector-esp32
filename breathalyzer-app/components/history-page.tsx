@@ -12,10 +12,12 @@ export function HistoryPage() {
   const [testHistory] = useLocalStorage<TestResult[]>("test-history", [])
   const [selectedTest, setSelectedTest] = useState<TestResult | null>(null)
 
-  // Get status color based on gas reading
-  const getStatusColor = (gas: number) => {
-    if (gas < 100) return "bg-green-500"
-    if (gas < 150) return "bg-amber-500"
+  // Get status color based on IAQ
+  const getStatusColor = (iaq: number) => {
+    if (iaq < 50) return "bg-green-500"
+    if (iaq < 100) return "bg-green-500"
+    if (iaq < 150) return "bg-amber-500"
+    if (iaq < 200) return "bg-orange-500"
     return "bg-red-500"
   }
 
@@ -75,7 +77,7 @@ export function HistoryPage() {
                   >
                     <CardContent className="p-0">
                       <div className="flex items-stretch">
-                        <div className={`w-2 ${getStatusColor(test.gas_kOhm)}`} />
+                        <div className={`w-2 ${getStatusColor(test.iaq)}`} />
                         <div className="flex-1 p-4">
                           <div className="flex justify-between items-start">
                             <div>
@@ -83,9 +85,9 @@ export function HistoryPage() {
                               <p className="text-sm text-muted-foreground">{time}</p>
                             </div>
                             <div className="text-right">
-                              <p className="font-bold">{test.gas_kOhm.toFixed(1)} kOhm</p>
+                              <p className="font-bold">IAQ: {test.iaq.toFixed(0)}</p>
                               <p className="text-xs text-muted-foreground">
-                                {test.temperature.toFixed(1)}°C / {test.humidity.toFixed(0)}%
+                                CO₂: {test.co2_eq.toFixed(0)} / VOC: {test.voc_eq.toFixed(0)} / Gas: {test.gas_kOhm.toFixed(1)}
                               </p>
                             </div>
                           </div>

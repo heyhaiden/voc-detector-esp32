@@ -45,6 +45,15 @@ export function DashboardPage() {
     setCurrentResult(null)
   }
 
+  // Get status based on IAQ
+  const getStatus = (iaq: number) => {
+    if (iaq < 50) return { label: "Excellent", color: "text-green-500", emoji: "🎉" }
+    if (iaq < 100) return { label: "Good", color: "text-green-500", emoji: "👍" }
+    if (iaq < 150) return { label: "Moderate", color: "text-amber-500", emoji: "⚠️" }
+    if (iaq < 200) return { label: "Poor", color: "text-orange-500", emoji: "😷" }
+    return { label: "Very Poor", color: "text-red-500", emoji: "⛔" }
+  }
+
   return (
     <div className="py-6 space-y-6">
       <AnimatePresence mode="wait">
@@ -106,12 +115,15 @@ export function DashboardPage() {
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-medium">{new Date(testHistory[0].timestamp).toLocaleString()}</p>
-                        <p className="text-muted-foreground text-sm">Gas: {testHistory[0].gas_kOhm.toFixed(2)} kOhm</p>
+                        <p className="text-muted-foreground text-sm">
+                          CO₂: {testHistory[0].co2_eq.toFixed(0)} / VOC: {testHistory[0].voc_eq.toFixed(0)} / Gas: {testHistory[0].gas_kOhm.toFixed(1)}
+                        </p>
                       </div>
                       <div className="text-right">
                         <div className="text-lg font-bold">
-                          {testHistory[0].gas_kOhm < 100 ? "🟢 Good" : "🟠 Elevated"}
+                          {getStatus(testHistory[0].iaq).emoji} {getStatus(testHistory[0].iaq).label}
                         </div>
+                        <p className="text-sm text-muted-foreground">IAQ: {testHistory[0].iaq.toFixed(0)}</p>
                       </div>
                     </div>
                   </CardContent>

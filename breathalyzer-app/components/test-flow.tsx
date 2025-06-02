@@ -8,7 +8,7 @@ import type { TestResult } from "@/types/test-result"
 export function TestFlow({ onComplete }: { onComplete: (result: TestResult) => void }) {
   const [stage, setStage] = useState<"countdown" | "blow" | "processing">("countdown")
   const [countdown, setCountdown] = useState(3)
-  const [blowTime, setBlowTime] = useState(3)
+  const [blowTime, setBlowTime] = useState(10)
   const [blowProgress, setBlowProgress] = useState(0)
   const { sendMessage, lastMessage } = useWebSocket()
 
@@ -21,7 +21,7 @@ export function TestFlow({ onComplete }: { onComplete: (result: TestResult) => v
 
       if (countdown === 1) {
         setStage("blow")
-        setBlowTime(3)
+        setBlowTime(10)
         setBlowProgress(0)
       }
     }, 1000)
@@ -35,7 +35,7 @@ export function TestFlow({ onComplete }: { onComplete: (result: TestResult) => v
 
     // Update every 50ms for smooth progress bar animation
     const interval = 50
-    const totalDuration = 3000 // 3 seconds in milliseconds
+    const totalDuration = 10000 // 10 seconds in milliseconds
     const steps = totalDuration / interval
     const progressIncrement = 100 / steps
 
@@ -44,9 +44,23 @@ export function TestFlow({ onComplete }: { onComplete: (result: TestResult) => v
         const newProgress = prev + progressIncrement
 
         // Update the countdown text every second (when progress hits certain thresholds)
-        if (newProgress >= 33.33 && blowTime === 3) {
+        if (newProgress >= 10 && blowTime === 10) {
+          setBlowTime(9)
+        } else if (newProgress >= 20 && blowTime === 9) {
+          setBlowTime(8)
+        } else if (newProgress >= 30 && blowTime === 8) {
+          setBlowTime(7)
+        } else if (newProgress >= 40 && blowTime === 7) {
+          setBlowTime(6)
+        } else if (newProgress >= 50 && blowTime === 6) {
+          setBlowTime(5)
+        } else if (newProgress >= 60 && blowTime === 5) {
+          setBlowTime(4)
+        } else if (newProgress >= 70 && blowTime === 4) {
+          setBlowTime(3)
+        } else if (newProgress >= 80 && blowTime === 3) {
           setBlowTime(2)
-        } else if (newProgress >= 66.66 && blowTime === 2) {
+        } else if (newProgress >= 90 && blowTime === 2) {
           setBlowTime(1)
         }
 

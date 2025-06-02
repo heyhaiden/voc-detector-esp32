@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreathBuddy - Your Personal Bad Breath Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-green-600 to-green-800 text-white">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold">BreathBuddy</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="hover:text-green-200">Features</a>
+                    <a href="#how-it-works" class="hover:text-green-200">How It Works</a>
+                    <a href="#contact" class="hover:text-green-200">Contact</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-8">Track Your Dental Health with Confidence</h1>
+            <p class="text-xl md:text-2xl mb-12">The world's first gamified bad breath detector that makes oral hygiene fun!</p>
+            <a href="#features" class="bg-white text-green-600 px-8 py-3 rounded-full font-semibold hover:bg-green-50 transition duration-300">Learn More</a>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Key Features</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-green-600 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Smart Detection</h3>
+                    <p class="text-gray-600">Advanced sensors measure VOC levels and oral health indicators with professional-grade accuracy.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-green-600 text-4xl mb-4">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Gamified Experience</h3>
+                    <p class="text-gray-600">Earn points, unlock achievements, and track your progress as you maintain fresh breath.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-green-600 text-4xl mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Easy to Use</h3>
+                    <p class="text-gray-600">One-button operation with friendly audio feedback makes checking your breath a breeze.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">How It Works</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="flex items-start mb-12">
+                    <div class="bg-green-600 text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4">1</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Press the Button</h3>
+                        <p class="text-gray-600">Simply press the button on your BreathBuddy to start a breath analysis cycle.</p>
+                    </div>
+                </div>
+                <div class="flex items-start mb-12">
+                    <div class="bg-green-600 text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4">2</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Quick Analysis</h3>
+                        <p class="text-gray-600">A fun 3-2-1 countdown with friendly beeps precedes a 10-second breath analysis.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-green-600 text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4">3</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Get Your Score</h3>
+                        <p class="text-gray-600">Receive your breath score and earn points for maintaining fresh breath over time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Technical Specifications</h2>
+            <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Hardware</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>ESP32 Microcontroller</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>BME680 VOC Sensor</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>BSEC Library Integration</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Wi-Fi Connectivity</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Software</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Real-time Breath Analysis</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Gamification System</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Progress Tracking</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Mobile App Integration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Get in Touch</h2>
+            <div class="max-w-2xl mx-auto text-center">
+                <p class="text-gray-600 mb-8">Interested in learning more about BreathBuddy? Contact us for detailed information and partnership opportunities.</p>
+                <a href="mailto:contact@breathbuddy.com" class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition duration-300 inline-block">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold">BreathBuddy</h3>
+                    <p class="text-gray-400 mt-2">Your Personal Bad Breath Detector</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 BreathBuddy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 
