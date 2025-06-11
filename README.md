@@ -1,2 +1,2 @@
-# bad-breadth-detector-esp8266
+# voc-detector-esp32
 
