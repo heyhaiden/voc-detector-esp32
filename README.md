@@ -85,9 +85,9 @@ Buzzer          ESP32
 
 **Schematic Diagram (ESP32):**
 ```
-                    ┌─────────────────┐
-                    │     ESP32       │
-                    │                 │
+                    ┌────────────────┐
+                    │     ESP32      │
+                    │                │
     BME680          │   3.3V ←───────┼──── VCC
     ┌─────┐         │    GND ←───────┼──── GND
     │ VCC ├─────────┤  GPIO21 (SDA)──┼──── SDA
@@ -96,7 +96,7 @@ Buzzer          ESP32
     │ SCL ├─────────┤  GPIO33 ←──────┼──── Button ──→ GND
     │ SDO ├────→GND │  GPIO27 ───────┼──── Buzzer+ ──→ Buzzer- ──→ GND
     └─────┘         │                │
-                    └─────────────────┘
+                    └────────────────┘
 ```
 
 ### ESP8266 Wiring
@@ -113,17 +113,17 @@ SDO  ───────→  GND (for address 0x76)
 
 **Schematic Diagram (ESP8266):**
 ```
-                    ┌─────────────────┐
-                    │  ESP8266        │
-                    │  NodeMCU        │
-    BME680          │                 │
+                    ┌────────────────┐
+                    │  ESP8266       │
+                    │  NodeMCU       │
+    BME680          │                │
     ┌─────┐         │   3.3V ←───────┼──── VCC
     │ VCC ├─────────┤    GND ←───────┼──── GND  
     │ GND ├─────────┤  GPIO4 (D2)────┼──── SDA
     │ SDA ├─────────┤  GPIO5 (D1)────┼──── SCL
     │ SCL ├─────────┤                │
     │ SDO ├────→GND │                │
-    └─────┘         └─────────────────┘
+    └─────┘         └────────────────┘
 ```
 
 ---
@@ -315,34 +315,6 @@ Calibration state is persisted to NVS flash and restored on reboot.
 - Avoid touching the sensor directly
 - Test in a well-ventilated area first to establish baseline
 - Keep sensor away from strong odors during calibration
-
----
-
-## Project Structure
-
-```
-.
-├── ESP32/
-│   ├── esp32-final-program.ino   # Main ESP32 firmware (BSEC + WebSocket)
-│   ├── esp32-webserver-debug.ino # Debug version
-│   └── secrets.h                 # Wi-Fi credentials (create this)
-│
-├── ESP8266/
-│   ├── bad-breadth.ino           # Main ESP8266 firmware
-│   ├── BME680Sensor.cpp/h        # Sensor driver
-│   ├── wifi_manager.cpp/h        # Wi-Fi connection handler
-│   ├── http_client.cpp/h         # HTTP server
-│   └── secrets.h                 # Wi-Fi credentials (create this)
-│
-├── breathalyzer-app/             # Next.js companion web app
-│   ├── components/
-│   │   ├── websocket-provider.tsx  # WebSocket connection
-│   │   ├── dashboard-page.tsx      # Main UI
-│   │   └── test-flow.tsx           # Test flow animations
-│   └── ...
-│
-└── landing.html                  # Static landing page
-```
 
 ---
 
